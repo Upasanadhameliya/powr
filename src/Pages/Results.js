@@ -4,11 +4,12 @@ import { gql, useQuery } from '@apollo/client';
 import $ from 'jquery';
 import Product from "./Components/Product.js"
 
-var final = [];
 var result;
+var final2 = [];
 
 export default function Results() {
     const [mpn, setMpn] = React.useState("");
+    const [final, setFinal] = React.useState([]);
     var [responseOut, setResponseOut] = React.useState(false);
 
     function handleChange(event) {
@@ -30,6 +31,7 @@ export default function Results() {
                   url\
                 }\
                 mpn\
+                manufacturerUrl\
                 manufacturer {\
                   name\
                   id\
@@ -62,7 +64,7 @@ export default function Results() {
             "method": "POST",
             "timeout": 0,
             "headers": {
-              "Authorization": "Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjA5NzI5QTkyRDU0RDlERjIyRDQzMENBMjNDNkI4QjJFIiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE2NTg5MjM4NjUsImV4cCI6MTY1OTAxMDI2NSwiaXNzIjoiaHR0cHM6Ly9pZGVudGl0eS5uZXhhci5jb20iLCJjbGllbnRfaWQiOiJjMTQ2MDQzOS03ODBmLTQ5MTYtOTlkYy03NGUxNWJjY2E4NDgiLCJjbGllbnRfYXBwbGljYXRpb25faWQiOiI5MDhhNmIxNS0yMGJkLTQzM2MtOGM3My1hYTU1ZGFkNDIxMjkiLCJqdGkiOiJFNjFFRkU4NzVFNEM1MUJERkY3RTEzMzdBRTYxMDNFOSIsImlhdCI6MTY1ODkyMzg2NSwic2NvcGUiOlsic3VwcGx5LmRvbWFpbiJdfQ.tJb05OuHDukFdJwC8t8mzdJyfhFIDpBS0GsAOtZFxRkF1YbFjJG4M9ELkpSW5xLStvwDA1xzNVQHypMwY79e_panvm0jzJC9pJq79OyitPef4vphz4Yagf1Biau6dKd9j9Fca1T4pRVvd34cgAfky8FO236xmpq2MrHujfB6nji0UFgyxX3kKmllsnK9lsr_HWR5oQekHhPABENuiMBJlFa9ozaiGpJyqo4TgIrUEA9gKucgQ1Hmsq_FLS1M4vclC3_aMfGGptBPvppF5P1bdi59up_F5FsEW2rpVW8jG7u-AHxkeu9V1dsT7Sc8xTVt64yRIgwlI-0Atl_LfaX6-A",
+              "Authorization": "Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjA5NzI5QTkyRDU0RDlERjIyRDQzMENBMjNDNkI4QjJFIiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE2NTg5MzA2NjQsImV4cCI6MTY1OTAxNzA2NCwiaXNzIjoiaHR0cHM6Ly9pZGVudGl0eS5uZXhhci5jb20iLCJjbGllbnRfaWQiOiIxMDMwYmRmNy02ODI2LTRjZTQtOTBjYy00OWQwMWE5OTAzZmYiLCJjbGllbnRfYXBwbGljYXRpb25faWQiOiI4NmU1YzZkNy1lZmE5LTQxMmMtYmIyNy1mZGRmYzE1MWZjNGQiLCJqdGkiOiI3RDBGMDQ2MzI2OUEwQzc2RTMzN0NFQTc5MUM0N0FDRSIsImlhdCI6MTY1ODkzMDY2NCwic2NvcGUiOlsic3VwcGx5LmRvbWFpbiJdfQ.HVQ4TUt96juuT6ee3MxS1ZP3I705glUTpgqOJ5pEeNyrtPDJYGTh2ChxL2z8PRWWYETSiMqwoJURUHw6nhkrGaztXOKCuTwnWTsnLNltUFPvocYCN1wJ2TNDBMxHUv3rmVNvi7Dah1GSp8ympF7hI-GEv4eSLSUEweN_5ObPdLKk-zNA5l4A_l8jG9HK3ix2_vZ33Zr4fA8CQ3lJFZWMVO5POc7Uy3MVCUukjqJPpYtqynvLmG99PFjn-cILAkogljqqNNK5Y6jqbKk2bs-mQwUMQNhmw4S2U4oMC7tps9kzfTHhmICHo2R9H5udTjE_ZFwqrQ8WTDVM7-RfQwFEdQ",
               "Content-Type": "application/json"
             },
             "data": JSON.stringify({
@@ -74,11 +76,13 @@ export default function Results() {
         $.ajax(settings).done(function (response) {
           console.log(response)
             result = response.data.supSearchMpn.results
-            final = []
+            setFinal([])
+            final2 = []
             setResponseOut(true)
             for (var i = 0; i < result.length; i++) {
-                final.push(<Product item={result[i]} />);
+                final2.push(<Product item={result[i]} />);
             }
+            setFinal(final2)
             console.log(response.data.supSearchMpn.results)
         })
     }
@@ -90,7 +94,7 @@ export default function Results() {
             </VStack>
             {responseOut ? 
                 <Box >
-                  {final}
+                  {final2}
                 </Box>
                 : null}
         </>
