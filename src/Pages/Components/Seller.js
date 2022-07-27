@@ -23,9 +23,15 @@ export default function Seller(props) {
                 {props.item.company.name}</Link></Td>
             <Td><Link href={props.item.offers[0].clickUrl === null ? "#" : props.item.offers[0].clickUrl}>
                 {props.item.offers[0].sku}</Link></Td>
-            <Td><Text>{props.item.offers[0].inventoryLevel}</Text></Td>
+            <Td><Text>{props.item.offers[0].inventoryLevel > 0 ?props.item.offers[0].inventoryLevel:"NA"}</Text></Td>
             <Td><Text>{props.item.offers[0].moq}</Text></Td>
             <Td><Text>{props.item.offers[0].packaging}</Text></Td>
+            <Td></Td>
+            {/* <Td><Text>{props.item.offers[0].prices[1].price}</Text></Td>
+            <Td><Text>{props.item.offers[0].prices[2].price}</Text></Td>
+            <Td><Text>{props.item.offers[0].prices[3].price}</Text></Td>
+            <Td><Text>{props.item.offers[0].prices[4].price}</Text></Td> */}
+
         </Tr>
     )
 }

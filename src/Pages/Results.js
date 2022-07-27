@@ -73,8 +73,8 @@ export default function Results() {
             })
           };
 
-        $.ajax(settings).done(function (response) {
-          console.log(response)
+        $.ajax(settings).then(function (response) {
+            console.log(response)
             result = response.data.supSearchMpn.results
             setFinal([])
             final2 = []
@@ -86,10 +86,25 @@ export default function Results() {
             console.log(response.data.supSearchMpn.results)
         })
     }
+
+    React.useEffect(() => {
+      const keyDownHandler = e => {
+        console.log('User pressed: ', e.key);
+  
+        if (e.key === 'Enter') {
+          handleSubmit();
+        }
+      };
+      document.addEventListener('keydown', keyDownHandler);
+      return () => {
+        document.removeEventListener('keydown', keyDownHandler);
+      };
+    }, []);
+
     return (
         <>
             <VStack mt={10} mb={10} align={'center'}>
-                <Input opacity="1 !important" id="firstName" p="1.2rem 0.8rem" w="80%" placeholder="enter your first name here" name="firstName" type="text" onChange={handleChange}/>
+                <Input opacity="1 !important" id="firstName" p="1.2rem 0.8rem" w="80%" placeholder="MPN number" name="firstName" type="text" onChange={handleChange}/>
                 <Button opacity="1 !important" id="submit" p="1.2rem 0.8rem" w="80%" variantColor="teal" onClick={handleSubmit}>Submit</Button>
             </VStack>
             {responseOut ? 

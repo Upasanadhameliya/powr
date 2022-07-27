@@ -19,11 +19,17 @@ import Seller from './Seller.js'
 
 export default function Product(props) {
     var final2 = [];
+    var final3 = [];
      for (var i = 0; i < props.item.part.sellers.length; i++) {
-         final2.push(<Seller item={props.item.part.sellers[i]} />);
+        if (props.item.part.sellers[i].offers[0].inventoryLevel > 0) {
+            final2.push(<Seller item={props.item.part.sellers[i]} />);
+        }
+        else {
+            final3.push(<Seller item={props.item.part.sellers[i]} />);
+        }
      }
     return (
-        <Box className="card" p={10} bg="#ede0df">
+        <Box className="card" p={10} bg="#dae3f2" m={3} borderRadius={30}>
             <Flex>
                 <Image src={props.item.part.bestImage === null?"../images/image-512.webp":props.item.part.bestImage.url} alt="product" 
                 width='10rem'/>
@@ -50,6 +56,7 @@ export default function Product(props) {
                         </Tr>
                     </Thead>
                     {final2}
+                    {final3}
                 </Table>
             </TableContainer>
         </Box>
