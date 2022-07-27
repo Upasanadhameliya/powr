@@ -25,7 +25,7 @@ export default function Product(props) {
     return (
         <Box className="card" p={10} bg="#ede0df">
             <Flex>
-                <Image src={props.item.part.bestImage.url} alt="product" 
+                <Image src={props.item.part.bestImage === null?"../images/image-512.webp":props.item.part.bestImage.url} alt="product" 
                 width='10rem'/>
                 <VStack spacing={2}>
                     <Text>{props.item.part.mpn}</Text>

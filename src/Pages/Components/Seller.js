@@ -19,9 +19,10 @@ import {Text,
 export default function Seller(props) {
     return (
         <Tr>
-            {console.log(props.item)}
-            <Td><Link href={props.item.company.homepageUrl}>{props.item.company.name}</Link></Td>
-            <Td><Link src={props.item.offers.clickUrl}>{props.item.offers[0].sku}</Link></Td>
+            <Td><Link href={props.item.company.homepageUrl === null? "#" :props.item.company.homepageUrl}>
+                {props.item.company.name}</Link></Td>
+            <Td><Link href={props.item.offers.clickUrl === null ? "#" : props.item.offers.clickUrl}>
+                {props.item.offers[0].sku}</Link></Td>
             <Td><Text>{props.item.offers[0].inventoryLevel}</Text></Td>
             <Td><Text>{props.item.offers[0].moq}</Text></Td>
             <Td><Text>{props.item.offers[0].packaging}</Text></Td>

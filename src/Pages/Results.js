@@ -72,6 +72,7 @@ export default function Results() {
           };
 
         $.ajax(settings).done(function (response) {
+          console.log(response)
             result = response.data.supSearchMpn.results
             final = []
             setResponseOut(true)
