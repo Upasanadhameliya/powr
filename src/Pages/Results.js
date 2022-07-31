@@ -25,73 +25,67 @@ export default function Results() {
         setMpn(value);
     }
 
+    const nx = require('../NexarClient/nexarClient.js')
+    const clientId = process.env.NEXAR_CLIENT_ID ??
+        (() => {throw new Error("Please set environment variable 'NEXAR_CLIENT_ID'")})()
+    const clientSecret = process.env.NEXAR_CLIENT_SECRET ??
+        (() => {throw new Error("Please set environment variable 'NEXAR_CLIENT_SECRET'")})()
+    const nexar = new nx.NexarClient(clientId, clientSecret)
+
     function handleSubmit(e) {
         console.log(mpn)
-        var query = 'query PartSearch {\
-          supSearchMpn(\
-            q:'+ JSON.stringify(mpn) +'\
-          ) {\
-            hits\
-            results {\
-              part {\
-                bestImage{\
-                  url\
-                }\
-                mpn\
-                manufacturerUrl\
-                manufacturer {\
-                  name\
-                  id\
-                }\
-                sellers(authorizedOnly: false) {\
-                  company {\
-                    name\
-                    homepageUrl\
-                  }\
-                  isAuthorized\
-                  offers {\
-                    prices{\
-                      price\
-                      quantity\
-                    }\
-                    clickUrl\
-                    inventoryLevel\
-                    sku\
-                    moq\
-                    packaging\
-                  }\
-                }\
-              }\
-            }\
-          }\
-        }';
-        console.log(query)
-        var settings = {
-            "url": "https://api.nexar.com/graphql",
-            "method": "POST",
-            "timeout": 0,
-            "headers": {
-              "Authorization": "Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjA5NzI5QTkyRDU0RDlERjIyRDQzMENBMjNDNkI4QjJFIiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE2NTg5MzA2NjQsImV4cCI6MTY1OTAxNzA2NCwiaXNzIjoiaHR0cHM6Ly9pZGVudGl0eS5uZXhhci5jb20iLCJjbGllbnRfaWQiOiIxMDMwYmRmNy02ODI2LTRjZTQtOTBjYy00OWQwMWE5OTAzZmYiLCJjbGllbnRfYXBwbGljYXRpb25faWQiOiI4NmU1YzZkNy1lZmE5LTQxMmMtYmIyNy1mZGRmYzE1MWZjNGQiLCJqdGkiOiI3RDBGMDQ2MzI2OUEwQzc2RTMzN0NFQTc5MUM0N0FDRSIsImlhdCI6MTY1ODkzMDY2NCwic2NvcGUiOlsic3VwcGx5LmRvbWFpbiJdfQ.HVQ4TUt96juuT6ee3MxS1ZP3I705glUTpgqOJ5pEeNyrtPDJYGTh2ChxL2z8PRWWYETSiMqwoJURUHw6nhkrGaztXOKCuTwnWTsnLNltUFPvocYCN1wJ2TNDBMxHUv3rmVNvi7Dah1GSp8ympF7hI-GEv4eSLSUEweN_5ObPdLKk-zNA5l4A_l8jG9HK3ix2_vZ33Zr4fA8CQ3lJFZWMVO5POc7Uy3MVCUukjqJPpYtqynvLmG99PFjn-cILAkogljqqNNK5Y6jqbKk2bs-mQwUMQNhmw4S2U4oMC7tps9kzfTHhmICHo2R9H5udTjE_ZFwqrQ8WTDVM7-RfQwFEdQ",
-              "Content-Type": "application/json"
-            },
-            "data": JSON.stringify({
-              query: query,
-              variables: {}
-            })
-          };
-
-        $.ajax(settings).then(function (response) {
-            console.log(response)
-            result = response.data.supSearchMpn.results
-            setFinal([])
-            final2 = []
-            setResponseOut(true)
-            for (var i = 0; i < result.length; i++) {
-                final2.push(<Product item={result[i]} />);
+        var query = `query PartSearch {
+          supSearchMpn( q: $mpn ) {
+            hits
+            results {
+              part {
+                bestImage{
+                  url
+                }
+                mpn
+                manufacturerUrl
+                manufacturer {
+                  name
+                  id
+                }
+                sellers(authorizedOnly: false) {
+                  company {
+                    name
+                    homepageUrl
+                  }
+                  isAuthorized
+                  offers {
+                    prices{
+                      price
+                      quantity
+                    }
+                    clickUrl
+                    inventoryLevel
+                    sku
+                    moq
+                    packaging
+                  }
+                }
+              }
             }
-            setFinal(final2)
-            console.log(response.data.supSearchMpn.results)
-        })
+          }
+        }`;
+        console.log(query)
+
+        const response = nexar.query(query, {'mpn': mpn})
+        const results = response?.data?.supSearchMpn?.results
+    
+        console.log(response)
+        setFinal([])
+        final2 = []
+        setResponseOut(true)
+
+        for (var i = 0; i < result.length; i++) {
+            final2.push(<Product item={result[i]} />);
+        }
+
+        setFinal(final2)
+        console.log(response.data.supSearchMpn.results)
     }
 
     React.useEffect(() => {
