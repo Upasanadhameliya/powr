@@ -14,18 +14,27 @@ import {
     useColorModeValue,
     useBreakpointValue,
     useDisclosure,
-    Image
+    Image,
+    useState
   } from '@chakra-ui/react';
-  import {
-    HamburgerIcon,
-    CloseIcon,
-    ChevronDownIcon,
-    ChevronRightIcon,
-  } from '@chakra-ui/icons';
-  
+import {
+  HamburgerIcon,
+  CloseIcon,
+  ChevronDownIcon,
+  ChevronRightIcon,
+} from '@chakra-ui/icons';
+import { GoogleLogin, GoogleLogout } from 'react-google-login';
+import React from 'react';
+
   export default function WithSubnavigation() {
     const { isOpen, onToggle } = useDisclosure();
-  
+    const { login, setLogin } = React.useState(false);
+
+
+    const responseGoogle = (response) => {
+      console.log(response);
+    }
+
     return (
       <Box>
         <Flex
@@ -65,32 +74,20 @@ import {
             </Flex>
           </Flex>
   
-          <Stack
-            flex={{ base: 1, md: 0 }}
-            justify={'flex-end'}
-            direction={'row'}
-            spacing={6}>
-            <Button
-              as={'a'}
-              fontSize={'sm'}
-              fontWeight={400}
-              variant={'link'}
-              href={'#'}>
-              Sign In
-            </Button>
-            <Button
-              display={{ base: 'none', md: 'inline-flex' }}
-              fontSize={'sm'}
-              fontWeight={600}
-              color={'white'}
-              bg={'#049c44'}
-              href={'#'}
-              _hover={{
-                bg: '#609973',
-              }}>
-              Sign Up
-            </Button>
-          </Stack>
+
+          <GoogleLogin
+            as={'a'}
+            w="100%"
+            fontSize={'xl'}
+            fontWeight={1000}
+            variant={'link'}        
+            clientId="628053686539-fu3fu9cbtl6e16j6845ep49tn2uul1qs.apps.googleusercontent.com"
+            buttonText="Sign In With Google"
+            onSuccess={responseGoogle}
+            onFailure={responseGoogle}
+            cookiePolicy={'single_host_origin'}
+            isSignedIn={true}
+            href={'#'} />
         </Flex>
   
         <Collapse in={isOpen} animateOpacity>
