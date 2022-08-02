@@ -3,7 +3,6 @@ import {
     Flex,
     Text,
     IconButton,
-    Button,
     Stack,
     Collapse,
     Icon,
@@ -23,16 +22,18 @@ import {
   ChevronDownIcon,
   ChevronRightIcon,
 } from '@chakra-ui/icons';
+import { Button, Logo } from '@windmill/react-ui'
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
 import React from 'react';
+import jwtDecode from "jwt-decode"
 
   export default function WithSubnavigation() {
     const { isOpen, onToggle } = useDisclosure();
     const { login, setLogin } = React.useState(false);
 
-
-    const responseGoogle = (response) => {
-      console.log(response);
+    function responseGoogle(response) {
+      var userObject = jwtDecode(response.tokenId)
+      console.log(userObject + " is the user object");
     }
 
     return (
@@ -74,7 +75,6 @@ import React from 'react';
             </Flex>
           </Flex>
   
-
           <GoogleLogin
             as={'a'}
             w="100%"
@@ -84,10 +84,11 @@ import React from 'react';
             clientId="628053686539-fu3fu9cbtl6e16j6845ep49tn2uul1qs.apps.googleusercontent.com"
             buttonText="Sign In With Google"
             onSuccess={responseGoogle}
-            onFailure={responseGoogle}
-            cookiePolicy={'single_host_origin'}
+            onFailure={console.log("Failed to log in")}
             isSignedIn={true}
-            href={'#'} />
+            cookiePolicy={'single_host_origin'}
+            href={'#'}  
+          />
         </Flex>
   
         <Collapse in={isOpen} animateOpacity>

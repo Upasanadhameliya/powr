@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { VStack, Box, Grid, Text, Image, Flex, HStack, Input, Button, Menu,
+import { VStack, Box, Grid, Text, Image, Flex, HStack, Input, Menu,
   MenuButton,
   MenuList,
   MenuItem,
@@ -8,6 +8,7 @@ import { VStack, Box, Grid, Text, Image, Flex, HStack, Input, Button, Menu,
   MenuOptionGroup,
   MenuDivider,
  } from "@chakra-ui/react";
+ import { Button } from '@windmill/react-ui'
 
 import { gql, useQuery } from '@apollo/client';
 import jwtDecode from "jwt-decode"
