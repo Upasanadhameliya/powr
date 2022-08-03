@@ -29,18 +29,20 @@ export default function Product(props) {
         }
      }
     return (
-        <Box className="card" p={10} bg="#f3f6f4" m={20} borderRadius={30}>
-            <Flex>
-                <Image src={props.item.part.bestImage === null?"../images/image-512.webp":props.item.part.bestImage.url} alt="product" 
+        <Box className="card" m={20} borderRadius={10}>
+            {/* <Flex>
+                <Image 
+                src={props.item.part.bestImage === null?"../images/image-512.webp":props.item.part.bestImage.url} 
+                alt="product" 
                 width='10rem'/>
                 <VStack spacing={2}>
                     <Text>{props.item.part.mpn}</Text>
                     <Text>{props.item.part.manufacturer.name}</Text>
                 </VStack>
-            </Flex>
-            <TableContainer>
-                <Table variant='striped' colorScheme='gray'>
-                    <Thead>
+            </Flex> */}
+            <TableContainer borderRadius={10}  border="2px #f5f6f7 solid">
+                <Table>
+                    <Thead bgcolor="#f9fafb">
                         <Tr>
                             <Th>Distributor</Th>
                             <Th>SKU</Th>
@@ -57,8 +59,8 @@ export default function Product(props) {
                     </Thead>
                     {final2}
                     {final3}
-                    <TableCaption>
-                        <Flex justifyContent={'space-around'} alignItems="center" position={'right'}>
+                    <TableCaption bgcolor="#f9fafb">
+                        <Flex justifyContent={'space-around'} position={'right'} >
                             <Link >Specs</Link>
                             <Link >Descriptions</Link>
                             <Link href={props.item.part.manufacturerUrl}>Manufacturer Page</Link>
