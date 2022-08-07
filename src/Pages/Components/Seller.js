@@ -18,7 +18,7 @@ import {Text,
 
 export default function Seller(props) {
     return (
-        <Tr bgColor="#fff">
+        <Tr bgColor="#fff" >
             <Td><Link href={props.item.company.homepageUrl === null? "#" :props.item.company.homepageUrl} 
             fontWeight={600} fontSize="0.9rem">
                 {props.item.company.name}</Link></Td>
@@ -29,11 +29,11 @@ export default function Seller(props) {
             <Td><Text fontSize="0.9rem">{props.item.offers[0].moq}</Text></Td>
             <Td><Text fontSize="0.9rem">{props.item.offers[0].packaging}</Text></Td>
             <Td></Td>
-            <Td><Text fontSize="0.9rem">{props.item.offers[0].prices[0]?"$ "+props.item.offers[0].prices[0].price:"-"}</Text></Td>
-            <Td><Text fontSize="0.9rem">{props.item.offers[0].prices[1]?"$ "+props.item.offers[0].prices[1].price:"-"}</Text></Td>
-            <Td><Text fontSize="0.9rem">{props.item.offers[0].prices[2]?"$ "+props.item.offers[0].prices[2].price:"-"}</Text></Td>
-            <Td><Text fontSize="0.9rem">{props.item.offers[0].prices[3]?"$ "+props.item.offers[0].prices[3].price:"-"}</Text></Td>
-            <Td><Text fontSize="0.9rem">{props.item.offers[0].prices[4]?"$ "+props.item.offers[0].prices[4].price:"-"}</Text></Td>
+            <Td><Text fontSize="0.9rem">{props.item.offers[0].prices[0]?"$ "+props.item.offers[0].prices[0].price.toFixed(2):"-"}</Text></Td>
+            <Td><Text fontSize="0.9rem">{props.item.offers[0].prices[1]?"$ "+props.item.offers[0].prices[1].price.toFixed(2):"-"}</Text></Td>
+            <Td><Text fontSize="0.9rem">{props.item.offers[0].prices[2]?"$ "+props.item.offers[0].prices[2].price.toFixed(2):"-"}</Text></Td>
+            <Td><Text fontSize="0.9rem">{props.item.offers[0].prices[3]?"$ "+props.item.offers[0].prices[3].price.toFixed(2):"-"}</Text></Td>
+            <Td><Text fontSize="0.9rem">{props.item.offers[0].prices[4]?"$ "+props.item.offers[0].prices[4].price.toFixed(2):"-"}</Text></Td>
 
         </Tr>
     )

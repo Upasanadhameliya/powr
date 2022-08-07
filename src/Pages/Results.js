@@ -7,7 +7,9 @@ import { VStack, Box, Grid, Text, Image, Flex, HStack, Input, Menu, Button,
   MenuGroup,
   MenuOptionGroup,
   MenuDivider,
+  Link
  } from "@chakra-ui/react";
+import { FaBell } from 'react-icons/fa'
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
 
 import { gql, useQuery } from '@apollo/client';
@@ -15,7 +17,7 @@ import jwtDecode from "jwt-decode"
 import $ from 'jquery';
 import Product from "./Components/Product.js";
 import Search from "./Search.js";
-import Navbar from "./Components/Navbar.js";
+import Sidebar from "./Components/Sidebar.js";
 import Filters from "./Components/Filters.js";
 // import Sidebar from "./Components/Sidebar.js";
 import axios from "axios";
@@ -133,33 +135,30 @@ export default function Results() {
   }, []);
 
   return (
-      <Flex w="100vw" backgroundColor="#f9fafb" >
-          {/* <Sidebar /> */}
-            <Navbar />
-            <Box bg="#f9fafb" height="100vh" w="80%">
-              <VStack mt={10} mb={10} align={'center'}>
-                  <Flex bgColor="#fff">
-                    <Input opacity="1 !important" id="firstName" p="1.2rem 0.8rem" w="80%" placeholder="MPN number" name="firstName" type="text" onChange={handleChange}/>
-                    {/* <GoogleLogin
-                        as={'a'}
-                        w="100%"
-                        fontSize={'xl'}
-                        fontWeight={1000}
-                        variant={'link'}        
-                        clientId="628053686539-fu3fu9cbtl6e16j6845ep49tn2uul1qs.apps.googleusercontent.com"
-                        buttonText="Sign In"
-                        onSuccess={responseGoogle}
-                        onFailure={console.log("Failed to log in")}
-                        isSignedIn={true}
-                        cookiePolicy={'single_host_origin'}
-                        href={'#'}  
-                      /> */}
-                  </Flex>
-                  <Filters />
-                  <Button opacity="1 !important" id="submit" p="1.2rem 0.8rem" w="80%" variantColor="teal" onClick={handleSubmit}>Submit</Button>
-              </VStack>
-              {responseOut ? <Box > {final2} </Box> : null}
-            </Box>          
-      </Flex>
+      <Box overflowX="hidden" w="100vw" backgroundColor="#f9fafb" display="inline-block">
+          <Sidebar />
+          <Box bg="#fff" ml="15%" p="1rem" align="center" >
+            <Input opacity="1 !important" id="firstName" 
+              p="1rem 0.8rem" w="50%" placeholder="MPN number" fontSize="0.9rem"
+              name="firstName" type="text" onChange={handleChange}
+              />
+            {/* <GoogleLogin
+                as={'a'}
+                w="100%"
+                fontSize={'xl'}
+                fontWeight={1000}
+                variant={'link'}        
+                clientId="628053686539-fu3fu9cbtl6e16j6845ep49tn2uul1qs.apps.googleusercontent.com"
+                buttonText="Sign In"
+                onSuccess={responseGoogle}
+                onFailure={console.log("Failed to log in")}
+                isSignedIn={true}
+                cookiePolicy={'single_host_origin'}
+                href={'#'}  
+              /> */}
+            {/* <Filters /> */}
+            {responseOut ? <Box > {final2} </Box> : null}
+        </Box>
+      </Box>          
   )
 }

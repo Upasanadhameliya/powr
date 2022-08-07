@@ -29,7 +29,7 @@ export default function Product(props) {
         }
      }
     return (
-        <Box className="card" m={20} borderRadius={10}>
+        <Box className="card" p={2} m={20} borderRadius={10}>
             {/* <Flex>
                 <Image 
                 src={props.item.part.bestImage === null?"../images/image-512.webp":props.item.part.bestImage.url} 
@@ -60,7 +60,7 @@ export default function Product(props) {
                     {final2}
                     {final3}
                     <TableCaption bgcolor="#f9fafb">
-                        <Flex justifyContent={'space-around'} position={'right'} >
+                        <Flex justifyContent={'space-around'} alignItems="center" position={'right'} >
                             <Link >Specs</Link>
                             <Link >Descriptions</Link>
                             <Link href={props.item.part.manufacturerUrl}>Manufacturer Page</Link>
