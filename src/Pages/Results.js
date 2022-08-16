@@ -12,6 +12,7 @@ import { VStack, Box, Grid, Text, Image, Flex, HStack, Input, Menu, Button, Spin
   Divider,
   Avatar,
   Heading,
+  IconButton
  } from "@chakra-ui/react";
 
 import Product from "./Components/Product.js";
@@ -23,7 +24,9 @@ import Token from "./Components/tokenGen.js";
 import jwtDecode from "jwt-decode"
 import $ from 'jquery';
 import axios from "axios";
-import { SearchIcon } from '@chakra-ui/icons';
+import { SearchIcon, 
+  
+} from '@chakra-ui/icons';
 import mixpanel from 'mixpanel-browser';
 
 var result;
@@ -46,6 +49,7 @@ export default function Results() {
       localStorage.setItem("user", JSON.stringify(userObject))
       setLoggedIn(true)
       setUser(JSON.parse(localStorage.getItem("user")))
+      this.window.location.reload();
   }
 
   React.useEffect(() => {
@@ -68,21 +72,13 @@ export default function Results() {
 
   if (localStorage.getItem("user") !== null && !loggedIn) {
     setLoggedIn(true)
-  }
-
-  function handleCallbackResponse(response) {
-    var userObject = jwtDecode(response.credential)
-    localStorage.setItem("user", JSON.stringify(userObject))
+    setUser(JSON.parse(localStorage.getItem("user")))
   }
 
   function logout(){
     localStorage.removeItem("user");
     setLoggedIn(false);
-  }
-
-  function responseGoogle(response) {
-    var userObject = jwtDecode(response.tokenId)
-    console.log(userObject + " is the user object");
+    window.location.reload();
   }
 
   function handleSubmit(e) {
@@ -164,22 +160,38 @@ export default function Results() {
       <Box overflowX="hidden" w="100vw" h="100wh" bg="#f9fafb">
           <Sidebar />
           <Flex bg="#fff" ml="15%" p="1rem" boxShadow=" 0px 5px 5px 0px rgba(0,0,0,0.10)" justifyContent="space-between">
-            <SearchIcon />
+            <Box></Box>
+            <Box w="50%" display="inline-flex">
             <Input opacity="1 !important" id="firstName" bg="#f4f5f7"
-              p="1rem 0.8rem" w="50%" placeholder="Search for parts" fontSize="1rem" fontWeight="500"
+              p="1rem 0.8rem" placeholder="Search for parts" fontSize="1rem" fontWeight="500"
               name="firstName" type="text" onChange={event => setMpn(event.target.value)} />
-
             <Button onClick={handleSubmit}>Search</Button>
-
-            {loggedIn?<Button variantColor="teal" variant="solid" onClick={logout}>Logout</Button>:null}
+            </Box>
                 {!loggedIn?
-                <Box id="signInDiv"  marginInline={"auto"} ></Box>
-                :<Flex mt={4} align="center">
-                    <Avatar size="sm" src={user.picture} />
-                    <Flex flexDir="column" ml={4} >
-                        <Heading as="h3" size="sm">{user.given_name + " " + user.family_name}</Heading>
-                        <Text color="gray">Customer</Text>
-                    </Flex>
+                <Box id="signInDiv"  ></Box>
+                :<Flex align="center">
+                  <Menu>
+                    <MenuButton
+                      as={IconButton}
+                      aria-label='Options'
+                      icon={<Avatar size="sm" src={user.picture} />}
+                      variant='ghost'
+                    />
+                    <MenuList>
+                    <MenuItem onClick={logout} 
+                      variant="solid" variantColor="teal">
+                        Profile
+                      </MenuItem>
+                      <MenuItem onClick={logout} 
+                      variant="solid" variantColor="teal">
+                        Settings
+                      </MenuItem>
+                      <MenuItem onClick={logout} 
+                      variant="solid" variantColor="teal">
+                        Logout
+                      </MenuItem>
+                    </MenuList>
+                  </Menu>
                 </Flex>}
           </Flex>
             {/* <Filters /> */}
