@@ -5,10 +5,11 @@ import { ChevronDownIcon } from '@chakra-ui/icons';
 
 export default function Filters(){
     return(
-        <HStack p={3}>
+        <HStack p={3} ml="15%">
               <Menu variantColor="teal" >
                 <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
                   Sellers
+                  {}
                 </MenuButton>
               </Menu>
               <Menu variantColor="teal" >

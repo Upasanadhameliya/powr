@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { VStack, Box, Grid, Text, Image, Flex, HStack, Input, Menu, Button,
+import { VStack, Box, Grid, Text, Image, Flex, HStack, Input, Menu, Button, Spinner,
   MenuButton,
   MenuList,
   MenuItem,
@@ -7,41 +7,78 @@ import { VStack, Box, Grid, Text, Image, Flex, HStack, Input, Menu, Button,
   MenuGroup,
   MenuOptionGroup,
   MenuDivider,
-  Link
+  Link,
+  InputGroup,
+  Divider,
+  Avatar,
+  Heading,
  } from "@chakra-ui/react";
-import { FaBell } from 'react-icons/fa'
-import { GoogleLogin, GoogleLogout } from 'react-google-login';
 
-import { gql, useQuery } from '@apollo/client';
-import jwtDecode from "jwt-decode"
-import $ from 'jquery';
 import Product from "./Components/Product.js";
 import Search from "./Search.js";
 import Sidebar from "./Components/Sidebar.js";
 import Filters from "./Components/Filters.js";
-// import Sidebar from "./Components/Sidebar.js";
-import axios from "axios";
 import Token from "./Components/tokenGen.js";
-import { ChevronDownIcon } from '@chakra-ui/icons';
+
+import jwtDecode from "jwt-decode"
+import $ from 'jquery';
+import axios from "axios";
+import { SearchIcon } from '@chakra-ui/icons';
+import mixpanel from 'mixpanel-browser';
 
 var result;
 var final2 = [];
+document.body.style = 'background: #f9fafb;';
 
 export default function Results() {
   const [mpn, setMpn] = React.useState("");
   const [final, setFinal] = React.useState([]);
-  var [responseOut, setResponseOut] = React.useState(false);
+  const [responseOut, setResponseOut] = React.useState(false);
+  const [pressed, setPressed] = React.useState(false);
+  const [loggedIn, setLoggedIn] = React.useState(false);
+  const [user, setUser] = React.useState({})
+
+  mixpanel.init('50c1303b59691c86dded402ccccaed53', {debug: true}); 
+  mixpanel.track('Sign up');
+
+  function handleCallbackResponse(response) {
+      var userObject = jwtDecode(response.credential)
+      localStorage.setItem("user", JSON.stringify(userObject))
+      setLoggedIn(true)
+      setUser(JSON.parse(localStorage.getItem("user")))
+  }
+
+  React.useEffect(() => {
+      /* global google */
+       if (localStorage.getItem("user") === null) {
+         google.accounts.id.initialize({
+           client_id: "628053686539-fu3fu9cbtl6e16j6845ep49tn2uul1qs.apps.googleusercontent.com",
+           callback: handleCallbackResponse
+         })
+   
+         google.accounts.id.renderButton(
+           document.getElementById("signInDiv"),
+           {
+             theme: "outline", size: "large"
+           }
+   
+         )
+       }
+     }, [])
+
+  if (localStorage.getItem("user") !== null && !loggedIn) {
+    setLoggedIn(true)
+  }
 
   function handleCallbackResponse(response) {
     var userObject = jwtDecode(response.credential)
     localStorage.setItem("user", JSON.stringify(userObject))
   }
 
-  function handleChange(event) {
-      const { name, value } = event.target;
-      setMpn(value);
+  function logout(){
+    localStorage.removeItem("user");
+    setLoggedIn(false);
   }
-
 
   function responseGoogle(response) {
     var userObject = jwtDecode(response.tokenId)
@@ -49,6 +86,7 @@ export default function Results() {
   }
 
   function handleSubmit(e) {
+    setPressed(true);
       console.log(mpn)
       var query = `query PartSearch {
         supSearchMpn(
@@ -112,53 +150,43 @@ export default function Results() {
           for (var i = 0; i < result.length; i++) {
               final2.push(<Product item={result[i]} />);
           }
+          setPressed(false);
           setFinal(final2)
-          console.log(response.data.supSearchMpn.results)
         })
         .catch(function (error) {
           console.log(error);
         });
   }
 
-  React.useEffect(() => {
-    const keyDownHandler = e => {
-      console.log('User pressed: ', e.key);
-      if (e.key === 'Enter') {
-        handleSubmit();
-      }
-    };
-    document.addEventListener('keydown', keyDownHandler);
-    
-    return () => {
-      document.removeEventListener('keydown', keyDownHandler);
-    };
-  }, []);
+
 
   return (
-      <Box overflowX="hidden" w="100vw" backgroundColor="#f9fafb" display="inline-block">
+      <Box overflowX="hidden" w="100vw" h="100wh" bg="#f9fafb">
           <Sidebar />
-          <Box bg="#fff" ml="15%" p="1rem" align="center" >
-            <Input opacity="1 !important" id="firstName" 
-              p="1rem 0.8rem" w="50%" placeholder="MPN number" fontSize="0.9rem"
-              name="firstName" type="text" onChange={handleChange}
-              />
-            {/* <GoogleLogin
-                as={'a'}
-                w="100%"
-                fontSize={'xl'}
-                fontWeight={1000}
-                variant={'link'}        
-                clientId="628053686539-fu3fu9cbtl6e16j6845ep49tn2uul1qs.apps.googleusercontent.com"
-                buttonText="Sign In"
-                onSuccess={responseGoogle}
-                onFailure={console.log("Failed to log in")}
-                isSignedIn={true}
-                cookiePolicy={'single_host_origin'}
-                href={'#'}  
-              /> */}
+          <Flex bg="#fff" ml="15%" p="1rem" boxShadow=" 0px 5px 5px 0px rgba(0,0,0,0.10)" justifyContent="space-between">
+            <SearchIcon />
+            <Input opacity="1 !important" id="firstName" bg="#f4f5f7"
+              p="1rem 0.8rem" w="50%" placeholder="Search for parts" fontSize="1rem" fontWeight="500"
+              name="firstName" type="text" onChange={event => setMpn(event.target.value)} />
+
+            <Button onClick={handleSubmit}>Search</Button>
+
+            {loggedIn?<Button variantColor="teal" variant="solid" onClick={logout}>Logout</Button>:null}
+                {!loggedIn?
+                <Box id="signInDiv"  marginInline={"auto"} ></Box>
+                :<Flex mt={4} align="center">
+                    <Avatar size="sm" src={user.picture} />
+                    <Flex flexDir="column" ml={4} >
+                        <Heading as="h3" size="sm">{user.given_name + " " + user.family_name}</Heading>
+                        <Text color="gray">Customer</Text>
+                    </Flex>
+                </Flex>}
+          </Flex>
             {/* <Filters /> */}
-            {responseOut ? <Box > {final2} </Box> : null}
+        <Box ml="15%" p="1rem" align="center" >
+            {responseOut ? <Text align="left" fontSize="2rem" fontWeight="600" color="#000" ml="5rem" p={2} pb={0}>Results</Text> : null}
+            {responseOut ? <Box > {final2} </Box> : pressed ?<Spinner size='md' />:null}
         </Box>
-      </Box>          
+      </Box>
   )
 }

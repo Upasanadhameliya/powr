@@ -11,6 +11,7 @@ import {
     VStack,
     useMediaQuery
 } from '@chakra-ui/react'
+
 import {
     FiMenu,
     FiHome,
@@ -20,12 +21,14 @@ import {
     FiBriefcase,
     FiSettings
 } from 'react-icons/fi'
+
 import { IoPawOutline } from 'react-icons/io5'
 import NavItem from './NavItem'
+import jwtDecode from "jwt-decode"
 
 export default function Sidebar() {
     const [navSize, changeNavSize] = useState("large")
-    const isSmall = useMediaQuery('(max-width: 800px)')
+
     return (
         <Box>
             <VStack>
@@ -34,7 +37,6 @@ export default function Sidebar() {
                     left={0}
                     h="100vh"
                     bgColor="#fff"
-                    boxShadow="0 4px 12px 0 rgba(0, 0, 0, 0.05)"
                     w={navSize == "small" ? "0" : "15%"}
                     flexDir="column"
                     justifyContent="space-between"
@@ -46,7 +48,7 @@ export default function Sidebar() {
                         alignItems={navSize == "small" ? "center" : "flex-start"}
                         as="nav"
                     >
-                        <Image src="../images/powr.png" mt="1rem"/>
+                        <Image src="../images/powr.png" mt="1rem" mb="2rem"/>
                         <NavItem navSize={navSize} icon={FiHome} title="Dashboard" 
                         description="This is the description for the dashboard."  active/>
                         <NavItem navSize={navSize} icon={FiCalendar} title="Forms" />
@@ -64,14 +66,7 @@ export default function Sidebar() {
                 alignItems={navSize == "small" ? "center" : "flex-start"}
                 mb={4}
             >
-                <Divider display={navSize == "small" ? "none" : "flex"} />
-                <Flex mt={4} align="center">
-                    <Avatar size="sm" src="avatar-1.jpg" />
-                    <Flex flexDir="column" ml={4} display={navSize == "small" ? "none" : "flex"}>
-                        <Heading as="h3" size="sm">Sylwia Weller</Heading>
-                        <Text color="gray">Admin</Text>
-                    </Flex>
-                </Flex>
+            
             </Flex>
         </Flex>
       </VStack>

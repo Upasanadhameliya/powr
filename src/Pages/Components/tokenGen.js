@@ -6,8 +6,8 @@ var settings = {
     "method": "POST",
     "timeout": 0,
     "data": {
-      "client_id": "1030bdf7-6826-4ce4-90cc-49d01a9903ff",
-      "client_secret": "d36461d9-2301-4405-a891-990414d74b03",
+      "client_id": "8d2b29b4-d8e0-4d5c-a13c-c190c77f1710",
+      "client_secret": "fb4391de-565d-43a6-8d61-13bbf90f718a",
       "grant_type": "client_credentials"
     }
   };

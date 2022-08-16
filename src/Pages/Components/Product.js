@@ -28,8 +28,11 @@ export default function Product(props) {
             final3.push(<Seller item={props.item.part.sellers[i]} />);
         }
      }
+    if (props.item.part.sellers.length <= 0){
+        return null
+    }
     return (
-        <Box className="card" p={2} m={20} borderRadius={10}>
+        <Box className="card" p={2} m="5rem" mt="0rem" borderRadius={10}>
             {/* <Flex>
                 <Image 
                 src={props.item.part.bestImage === null?"../images/image-512.webp":props.item.part.bestImage.url} 
@@ -44,17 +47,17 @@ export default function Product(props) {
                 <Table>
                     <Thead bgcolor="#f9fafb">
                         <Tr>
-                            <Th>Distributor</Th>
-                            <Th>SKU</Th>
-                            <Th>Stock</Th>
-                            <Th>MOQ</Th>
-                            <Th>Pkg</Th>
+                            <Th fontWeight={700}>Distributor</Th>
+                            <Th fontWeight={700}>SKU</Th>
+                            <Th fontWeight={700}>Stock</Th>
+                            <Th fontWeight={700}>MOQ</Th>
+                            <Th fontWeight={700}>Pkg</Th>
                             <Th></Th>
-                            <Th>1</Th>
-                            <Th>10</Th>
-                            <Th>100</Th>
-                            <Th>1000</Th>
-                            <Th>10000</Th>
+                            <Th fontWeight={700}>1</Th>
+                            <Th fontWeight={700}>10</Th>
+                            <Th fontWeight={700}>100</Th>
+                            <Th fontWeight={700}>1000</Th>
+                            <Th fontWeight={700}>10000</Th>
                         </Tr>
                     </Thead>
                     {final2}
