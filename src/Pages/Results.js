@@ -12,7 +12,11 @@ import { VStack, Box, Grid, Text, Image, Flex, HStack, Input, Menu, Button, Spin
   Divider,
   Avatar,
   Heading,
-  IconButton
+  IconButton,
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
  } from "@chakra-ui/react";
 
 import Product from "./Components/Product.js";
@@ -40,7 +44,8 @@ export default function Results() {
   const [pressed, setPressed] = React.useState(false);
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [user, setUser] = React.useState({})
-
+  const [msg, setMsg] = React.useState(null);
+  
   mixpanel.init('50c1303b59691c86dded402ccccaed53', {debug: true}); 
   mixpanel.track('Sign up');
 
@@ -78,7 +83,8 @@ export default function Results() {
   function logout(){
     localStorage.removeItem("user");
     setLoggedIn(false);
-    window.location.reload();
+    this.window.location.reload();
+
   }
 
   function handleSubmit(e) {
@@ -158,12 +164,15 @@ export default function Results() {
 
   return (
       <Box overflowX="hidden" w="100vw" h="100wh" bg="#f9fafb">
+        {msg!==null?<Alert status='success'>
+          {msg}
+        </Alert>:null}
           <Sidebar />
           <Flex bg="#fff" ml="15%" p="1rem" boxShadow=" 0px 5px 5px 0px rgba(0,0,0,0.10)" justifyContent="space-between">
             <Box></Box>
             <Box w="50%" display="inline-flex">
             <Input opacity="1 !important" id="firstName" bg="#f4f5f7"
-              p="1rem 0.8rem" placeholder="Search for parts" fontSize="1rem" fontWeight="500"
+              p="1rem 0.8rem" mr="1rem" placeholder="Search for parts" fontSize="1rem" fontWeight="500"
               name="firstName" type="text" onChange={event => setMpn(event.target.value)} />
             <Button onClick={handleSubmit}>Search</Button>
             </Box>
