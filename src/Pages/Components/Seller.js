@@ -40,9 +40,7 @@ export default function Seller(props) {
     return (
         <Tr bgColor="#fff" >
             <Td><Link href={props.item.company.homepageUrl === null? "#" :props.item.company.homepageUrl} id="no-link"
-            fontWeight={600} fontSize="0.9rem" display="inline-flex">
-                {props.item.offers[0].inventoryLevel > 0?<Text fontSize="0.5rem" mr="0.5rem">🟢</Text>:
-                <Text fontSize="0.5rem" mr="0.5rem">🔴</Text>}{props.item.company.name}</Link></Td>
+            fontWeight={600} fontSize="0.9rem" display="inline-flex" fontFamily="Mulish">{props.item.company.name}</Link></Td>
             <Td><Link href={props.item.offers[0].clickUrl === null ? "#" : props.item.offers[0].clickUrl} id="no-link"
             fontWeight={400} fontSize="0.9rem" color="#4287ed">
                 {props.item.offers[0].sku}</Link></Td>

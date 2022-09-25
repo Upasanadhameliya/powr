@@ -6,10 +6,11 @@ import {
     Link,
     Menu,
     MenuButton,
-    MenuList
+    MenuList,
+    Image
 } from '@chakra-ui/react'
 
-export default function NavItem({ icon, title, description, active, navSize }) {
+export default function NavItem({ icon, title, description, active, navSize, weight}) {
     return (
         <Flex
             mt="0.5rem"
@@ -19,16 +20,17 @@ export default function NavItem({ icon, title, description, active, navSize }) {
         >
             <Menu placement="right">
                 <Link
-                    backgroundColor={active && "#5ebc9b"}
+                    backgroundColor={active && "#292947"}
                     p={3}
                     borderRadius={8}
-                    _hover={{ textDecor: 'none', backgroundColor: "#5ebc9b" }}
+                    _hover={{ textDecor: 'none', backgroundColor: "#292947" }}
                     w={navSize == "large" && "100%"}
                 >
                     <MenuButton w="100%">
-                        <Flex>
-                            <Icon as={icon} fontSize="xl" color="gray.500" />
-                            <Text ml={3} display={navSize == "small" ? "none" : "flex"} fontWeight={600} fontSize="0.9rem">{title}</Text>
+                        <Flex ml="0.5rem">
+                            <Image src={icon} w="1.25rem" h="1.25rem" mt="0.1rem" />
+                            <Text ml="0.6rem" display={navSize == "small" ? "none" : "flex"} fontWeight={weight}
+                            color="#fff" fontSize="1rem">{title}</Text>
                         </Flex>
                     </MenuButton>
                 </Link>

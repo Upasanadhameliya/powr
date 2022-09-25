@@ -1,0 +1,8 @@
+.font-face-gm {
+    font-family: "Mulish";
+   }
+
+.stop-scrolling {
+    height: 100%;
+    overflow: hidden;
+}

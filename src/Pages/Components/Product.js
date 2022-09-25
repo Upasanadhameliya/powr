@@ -32,23 +32,23 @@ export default function Product(props) {
         return null
     }
     return (
-        <Box className="card" p={2} m="5rem" mt="0rem" borderRadius={10}>
-            {/* <Flex>
+        <Box className="card" p="1.5rem" mt="0rem" mb="2rem" borderRadius={10} background="#fff">
+            <Flex>
                 <Image 
                 src={props.item.part.bestImage === null?"../images/image-512.webp":props.item.part.bestImage.url} 
                 alt="product" 
                 width='10rem'/>
                 <VStack spacing={2}>
+                    <Text fontWeight={700} fontSize="0.8rem">{props.item.part.manufacturer.name.toUpperCase()} <Image display="inline" src="../images/external-link.svg" /></Text>
                     <Text>{props.item.part.mpn}</Text>
-                    <Text>{props.item.part.manufacturer.name}</Text>
                 </VStack>
-            </Flex> */}
+            </Flex>
             <TableContainer borderRadius={10}  border="2px #f5f6f7 solid">
-                <Table>
-                    <Thead bgcolor="#f9fafb">
+                <Table background="#f9fafb">
+                    <Thead>
                         <Tr>
-                            <Th fontWeight={700}>Distributor</Th>
-                            <Th fontWeight={700}>SKU</Th>
+                            <Th fontWeight={700}>Distributor <Image display="inline" src="../images/external-link.svg" /></Th>
+                            <Th fontWeight={700}>SKU <Image display="inline" src="../images/external-link.svg" /></Th>
                             <Th fontWeight={700}>Stock</Th>
                             <Th fontWeight={700}>MOQ</Th>
                             <Th fontWeight={700}>Pkg</Th>

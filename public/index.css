@@ -9,3 +9,10 @@
 --tradewind: #6cbcac;
 --aqua-forest: #609973;
  */
+
+ @font-face {
+    font-family: "Mulish";
+    src: local("Mulish"),
+     url("./fonts/Mulish/Mulish-VariableFont_wght.ttf") format("truetype");
+    font-weight: bold;
+    }
